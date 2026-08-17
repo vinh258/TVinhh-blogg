@@ -4,7 +4,8 @@
   "description": "TVinhhh - Trang web blog sắc màu với chế độ sáng/tối",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "watch:css": "sass --watch src/scss/app.scss public/css/app.css",
     "build:css": "sass src/scss/app.scss public/css/app.css"
   },

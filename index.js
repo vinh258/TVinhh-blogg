@@ -29,7 +29,7 @@ const webRoutes = require('./src/routes/webRoutes');
 // ========== CẤU HÌNH SERVER ==========
 
 const app = express();  // Tạo ứng dụng Express
-const port = 13000;  // Cổng server (localhost:10000)
+const port = process.env.PORT || 13000;  // Cổng server (localhost:10000)
 
 const publicDir = path.join(__dirname, 'public');  // Thư mục public (CSS, JS, images)
 const viewsDir = path.join(__dirname, 'views');    // Thư mục views (HTML templates)
