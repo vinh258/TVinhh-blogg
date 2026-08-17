@@ -1,0 +1,55 @@
+<!-- ============================================================
+     Trang Quản lý bài viết (My Blogs) — Buổi 12, bài tập thực hành
+     Chức năng: Liệt kê toàn bộ bài viết của user hiện tại dạng BẢNG,
+     có cột Hành động chứa nút Sửa + Xóa ở mỗi dòng.
+     ============================================================ -->
+
+<section class="dashboard-section">
+  <div class="container">
+    <div class="dashboard-header">
+      <div>
+        <h1 class="h1">📋 Quản lý bài viết</h1>
+        <p class="dashboard-subtitle">Toàn bộ bài viết của bạn ({{myPosts.length}})</p>
+      </div>
+      <a href="/dashboard" class="btn btn-secondary">← Quay lại Dashboard</a>
+    </div>
+
+    {{#if myPosts.length}}
+    <div class="my-blogs-table-wrapper">
+      <table class="my-blogs-table">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên bài viết</th>
+            <th>Ngày tạo</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each myPosts}}
+          <tr>
+            <td>{{inc @index}}</td>
+            <td>
+              <a href="/blog/{{this.slug}}" class="my-blogs-title-link">{{this.title}}</a>
+            </td>
+            <td>{{this.dateFormatted}}</td>
+            <td class="my-blogs-actions">
+              <a href="/dashboard/edit-post/{{this.slug}}" class="btn-table-edit">
+                <ion-icon name="create-outline"></ion-icon> Sửa
+              </a>
+              <form method="POST" action="/dashboard/delete-post/{{this.slug}}" class="delete-post-form" data-post-title="{{this.title}}">
+                <button type="submit" class="btn-table-delete">
+                  <ion-icon name="trash-outline"></ion-icon> Xóa
+                </button>
+              </form>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{else}}
+    <p class="my-posts-empty">Bạn chưa đăng bài viết nào. Vào <a href="/dashboard">Dashboard</a> để đăng bài mới nhé!</p>
+    {{/if}}
+  </div>
+</section>

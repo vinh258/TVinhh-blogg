@@ -1,0 +1,65 @@
+<!-- ============================================================
+     Trang đăng ký (Register Page)
+     Chức năng: Form đăng ký tài khoản, xác thực dữ liệu
+     ============================================================ -->
+
+<section class="auth-section">
+  <div class="container">
+    <!-- Card chính (form đăng ký) -->
+    <div class="auth-card">
+      <!-- Phần header của card -->
+      <div class="auth-header">
+        <!-- Tiêu đề -->
+        <h1 class="h2">✨ Đăng ký</h1>
+        <!-- Mô tả -->
+        <p>Tạo tài khoản TVinhhh của bạn</p>
+      </div>
+
+      <!-- Thông báo lỗi (hiển thị nếu có lỗi trong quá trình đăng ký) -->
+      {{#if error}}
+      <div class="alert alert-error">
+        <ion-icon name="close-circle"></ion-icon>
+        <p>{{error}}</p>
+      </div>
+      {{/if}}
+
+      <!-- Form đăng ký -->
+      <form method="POST" class="auth-form">
+        <!-- Trường tên đầy đủ -->
+        <div class="form-group">
+          <label for="fullName">Tên đầy đủ</label>
+          <input type="text" id="fullName" name="fullName" placeholder="Nhập tên của bạn" required>
+        </div>
+
+        <!-- Trường email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+        </div>
+
+        <!-- Trường mật khẩu -->
+        <div class="form-group">
+          <label for="password">Mật khẩu</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required>
+        </div>
+
+        <!-- Trường xác nhận mật khẩu -->
+        <div class="form-group">
+          <label for="confirmPassword">Xác nhận mật khẩu</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required>
+        </div>
+
+        <!-- Nút gửi form -->
+        <button type="submit" class="btn btn-primary btn-large">Tạo tài khoản</button>
+      </form>
+
+      <!-- Phần liên kết hữu ích ở cuối -->
+      <div class="auth-footer">
+        <!-- Link đến trang đăng nhập (nếu đã có tài khoản) -->
+        <p>Đã có tài khoản? <a href="/login" class="link">Đăng nhập tại đây</a></p>
+        <!-- Link quay lại trang chủ -->
+        <p><a href="/" class="link">← Quay lại trang chủ</a></p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,102 @@
+<!-- ============================================================
+     Trang bài viết chi tiết (Post Page)
+     Chức năng: Hiển thị nội dung bài viết, tác giả, bài viết liên quan
+     ============================================================ -->
+
+<section class="article-section">
+  <div class="container">
+    <!-- Bài viết chính -->
+    <article class="article">
+      <!-- Phần header: Link quay lại + thông tin bài viết -->
+      <div class="article-header">
+        <!-- Link quay lại danh sách bài viết -->
+        <a href="/" class="back-link">← Quay lại</a>
+        <!-- Metadata của bài viết (chủ đề, ngày, thời gian đọc) -->
+        <div class="article-meta">
+          <a href="/topic/{{post.topicSlug}}" class="article-topic">{{post.topic}}</a>
+          <time datetime="{{post.date}}">{{post.dateFormatted}}</time>
+          <span>{{post.readTime}} phút đọc</span>
+        </div>
+      </div>
+
+      <!-- Tiêu đề bài viết -->
+      <h1 class="h1">{{post.title}}</h1>
+
+      <!-- Ảnh banner (hero image) của bài viết -->
+      <div class="article-banner">
+        <img src="{{post.image}}" alt="{{post.title}}">
+      </div>
+
+      <!-- Nội dung bài viết chính -->
+      <div class="article-content">
+        {{#if post.content}}
+        <!-- Bài viết do người dùng tự đăng: hiển thị đúng nội dung đã nhập -->
+        <p class="first-paragraph">{{post.excerpt}}</p>
+        {{#each post.contentParagraphs}}
+        <!-- Hiển thị từng đoạn nội dung của bài viết -->
+        <p>{{{this}}}</p> <!-- Sử dụng triple braces để giữ nguyên định dạng HTML -->
+        {{/each}}
+        {{else}}                    
+        <!-- Mở đầu bài viết -->
+        <p class="first-paragraph">{{post.excerpt}}</p>
+        
+        <!-- Phần giới thiệu -->
+        <h2>Giới thiệu</h2>
+        <p>
+          Bài viết này cung cấp cái nhìn sâu sắc về {{post.topic}}. 
+          Chúng tôi sẽ khám phá các khía cạnh khác nhau của chủ đề này và 
+          cách nó ảnh hưởng đến lĩnh vực của chúng ta.
+        </p>
+
+        <!-- Phần nội dung chính -->
+        <h2>Nội dung chính</h2>
+        <p>
+          {{post.excerpt}} Đây là một chủ đề thú vị mà nhiều người đang quan tâm.
+          Hãy đọc tiếp để hiểu rõ hơn về các chi tiết và ứng dụng thực tế.
+        </p>
+
+        <!-- Quote (trích dẫn) -->
+        <blockquote>
+          "Kiến thức là sức mạnh. Sự hiểu biết về công nghệ mới giúp chúng ta 
+          thích ứng nhanh hơn với thế giới đang thay đổi."
+        </blockquote>
+
+        <!-- Kết luận -->
+        <h2>Kết luận</h2>
+        <p>
+          {{post.topic}} là một lĩnh vực đang phát triển nhanh chóng. 
+          Bằng cách cập nhật kiến thức của mình, bạn có thể luôn ở phía trước 
+          trong ngành công nghệ.
+        </p>
+        {{/if}}
+      </div>
+
+      <!-- Phần thông tin tác giả ở cuối bài viết -->
+      <div class="article-footer">
+        <div class="author-info">
+          <!-- Avatar tác giả -->
+          <img src="{{post.authorAvatar}}" alt="{{post.author}}">
+          <!-- Tên tác giả + mô tả -->
+          <div>
+            <h4>{{post.author}}</h4>
+            <p>Tác giả blog TVinhhh, chuyên viên về {{post.topic}}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PHẦN BÀI VIẾT LIÊN QUAN -->
+    <aside class="related-posts">
+      <h2 class="h2">Bài viết liên quan</h2>
+      <div class="posts-grid">
+        {{#each relatedPosts}}
+        <a href="/blog/{{this.slug}}" class="post-card">
+          <img src="{{this.image}}" alt="{{this.title}}" loading="lazy">
+          <h3>{{this.title}}</h3>
+          <p>{{this.excerpt}}</p>
+        </a>
+        {{/each}}
+      </div>
+    </aside>
+  </div>
+</section>

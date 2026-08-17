@@ -1,0 +1,86 @@
+<!-- ============================================================
+     Trang Liên hệ (Contact Page)
+     Chức năng: Trang riêng chứa đầy đủ thông tin liên hệ
+     ============================================================ -->
+
+<section class="contact-page">
+  <div class="container">
+    <div class="page-header">
+      <h1 class="h1">Liên hệ với chúng tôi</h1>
+      <p class="page-header-subtitle">Có câu hỏi, góp ý hay muốn hợp tác? Đội ngũ TVinhhh luôn sẵn sàng lắng nghe bạn.</p>
+    </div>
+
+    <div class="contact-page-grid">
+      <!-- Cột trái: các kênh liên hệ chi tiết -->
+      <div class="contact-info-list">
+        <div class="contact-info-item">
+          <div class="icon-box"><ion-icon name="mail-outline"></ion-icon></div>
+          <div>
+            <h3 class="h4">Email</h3>
+            <p>thevinh251008@gmail.com</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="icon-box"><ion-icon name="call-outline"></ion-icon></div>
+          <div>
+            <h3 class="h4">Điện thoại / Hotline</h3>
+            <p>0398857036</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="icon-box"><ion-icon name="location-outline"></ion-icon></div>
+          <div>
+            <h3 class="h4">Địa chỉ</h3>
+            <p>Tầng 5, Toà nhà TVinhhh, Quận 1, TP. Hồ Chí Minh, Việt Nam</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="icon-box"><ion-icon name="time-outline"></ion-icon></div>
+          <div>
+            <h3 class="h4">Giờ làm việc</h3>
+            <p>Thứ 2 - Thứ 6: 9:00 - 18:00</p>
+            <p>Thứ 7: 9:00 - 12:00 (Nghỉ Chủ nhật &amp; ngày lễ)</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="icon-box"><ion-icon name="people-outline"></ion-icon></div>
+          <div>
+            <h3 class="h4">Kết nối mạng xã hội</h3>
+            <div class="social-link">
+              <a href="#" class="icon-box discord" aria-label="Discord"><ion-icon name="logo-discord"></ion-icon></a>
+              <a href="#" class="icon-box twitter" aria-label="Twitter"><ion-icon name="logo-twitter"></ion-icon></a>
+              <a href="#" class="icon-box facebook" aria-label="Facebook"><ion-icon name="logo-facebook"></ion-icon></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột phải: Form liên hệ -->
+      <div class="contact-page-form-box">
+        <h2 class="h3">Gửi tin nhắn cho chúng tôi</h2>
+        <p>Điền thông tin bên dưới, chúng tôi sẽ phản hồi trong vòng 24 giờ.</p>
+
+        <!-- Thông báo gửi thành công -->
+        {{#if sent}}
+        <div class="alert alert-success">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <p>Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.</p>
+        </div>
+        {{/if}}
+
+        <!-- Form liên hệ: gửi thật lên server (POST /contact) -->
+        <form action="/contact" method="POST" class="contact-page-form">
+          <input type="text" name="name" placeholder="Họ và tên" required>
+          <input type="email" name="email" placeholder="Email của bạn" required>
+          <input type="text" name="subject" placeholder="Chủ đề">
+          <textarea name="message" placeholder="Nội dung tin nhắn" rows="5" required></textarea>
+          <button type="submit" class="btn btn-primary">Gửi tin nhắn</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

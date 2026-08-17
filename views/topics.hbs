@@ -1,0 +1,27 @@
+<!-- ============================================================
+     Trang Chủ đề (Topics Page)
+     Chức năng: Hiển thị tất cả các phân loại/chủ đề bài viết
+     Bấm vào 1 chủ đề → chuyển tới /topic/:slug để xem bài viết đã phân loại
+     ============================================================ -->
+
+<section class="topics-page">
+  <div class="container">
+    <div class="page-header">
+      <h1 class="h1">Chủ đề</h1>
+      <p class="page-header-subtitle">{{totalPosts}} bài viết được phân loại theo {{topics.length}} chủ đề — chọn một chủ đề để xem các bài viết liên quan.</p>
+    </div>
+
+    <div class="topics-page-grid">
+      {{#each topics}}
+      <a href="/topic/{{this.slug}}" class="topic-page-card">
+        <div class="icon-box">
+          <ion-icon name="{{this.icon}}"></ion-icon>
+        </div>
+        <h3 class="h3">{{this.name}}</h3>
+        <p>{{this.count}} bài viết</p>
+        <span class="topic-page-card-cta">Xem bài viết <ion-icon name="arrow-forward-outline"></ion-icon></span>
+      </a>
+      {{/each}}
+    </div>
+  </div>
+</section>

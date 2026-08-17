@@ -1,0 +1,294 @@
+<!-- ============================================================
+     Trang Dashboard (Trang cá nhân)
+     Chức năng: Hiển thị thông tin cá nhân, hoạt động, cài đặt
+     Chỉ user đã đăng nhập mới có thể truy cập
+     ============================================================ -->
+
+<section class="dashboard-section">
+  <div class="container">
+    <!-- Phần header: Lời chào + nút đăng xuất -->
+    <div class="dashboard-header">
+      <div>
+        <!-- Lời chào với tên user -->
+        <h1 class="h1">👋 Chào {{user.fullName}}!</h1>
+        <!-- Mô tả -->
+        <p class="dashboard-subtitle">Chào mừng bạn quay lại TVinhhh</p>
+      </div>
+      <!-- Nút đăng xuất -->
+      <a href="/logout" class="btn btn-secondary">Đăng xuất</a>
+    </div>
+
+    <!-- Thông báo đăng bài thành công -->
+    {{#if published}}
+    <div class="alert alert-success">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <p>Đăng bài thành công! <a href="/blog/{{published}}" class="link">Xem bài viết vừa đăng →</a></p>
+    </div>
+    {{/if}}
+
+    <!-- Thông báo xóa bài thành công -->
+    {{#if deleted}}
+    <div class="alert alert-success">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <p>Đã xóa bài viết "{{deleted}}" thành công.</p>
+    </div>
+    {{/if}}
+
+    <!-- Thông báo lỗi khi đăng bài -->
+    {{#if formError}}
+    <div class="alert alert-error">
+      <ion-icon name="close-circle"></ion-icon>
+      <p>{{formError}}</p>
+    </div>
+    {{/if}}
+
+    <!-- PHẦN 0: Đăng bài viết mới -->
+    <div class="new-post-box">
+      <h2 class="h2">✍️ Đăng bài viết mới</h2>
+      <p class="new-post-desc">Chia sẻ bài viết của bạn — sau khi đăng, bài viết sẽ hiện ngay trên trang chủ và trang Bài viết.</p>
+
+      <form method="POST" action="/dashboard/new-post" class="new-post-form">
+        <div class="form-group">
+          <label for="postTitle">Tiêu đề bài viết *</label>
+          <input type="text" id="postTitle" name="title" placeholder="Nhập tiêu đề bài viết..." required>
+        </div>
+
+        <div class="new-post-form-row">
+          <div class="form-group">
+            <label for="postTopic">Chủ đề *</label>
+            <select id="postTopic" name="topicSlug" required>
+              {{#each topics}}
+              <option value="{{this.slug}}">{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="postImage">Ảnh bìa (URL, không bắt buộc)</label>
+            <input type="url" id="postImage" name="image" placeholder="https://...">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="postExcerpt">Mô tả ngắn *</label>
+          <textarea id="postExcerpt" name="excerpt" rows="2" placeholder="Tóm tắt ngắn gọn nội dung bài viết..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="postContent">Nội dung bài viết</label>
+          <textarea id="postContent" name="content" rows="6" placeholder="Viết nội dung chi tiết của bài viết tại đây... (mỗi dòng sẽ là 1 đoạn văn)"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large">Đăng bài viết</button>
+      </form>
+    </div>
+
+    <!-- PHẦN 1: Grid các chức năng chính (4 card) -->
+    <div class="dashboard-grid">
+      <!-- Card 1: Bài viết yêu thích -->
+      <div class="dashboard-card">
+        <div class="card-header">
+          <h2 class="h3">📚 Bài viết yêu thích</h2>
+        </div>
+        <p>Những bài viết bạn đã lưu và theo dõi sẽ hiển thị tại đây.</p>
+        <button class="btn btn-primary" style="margin-top: 20px;">Xem bài viết</button>
+      </div>
+
+      <!-- Card 2: Bình luận -->
+      <div class="dashboard-card">
+        <div class="card-header">
+          <h2 class="h3">💬 Bình luận của tôi</h2>
+        </div>
+        <p>Quản lý và xem lại các bình luận của bạn trên blog.</p>
+        <button class="btn btn-primary" style="margin-top: 20px;">Xem bình luận</button>
+      </div>
+
+      <!-- Card 3: Cài đặt tài khoản -->
+      <div class="dashboard-card">
+        <div class="card-header">
+          <h2 class="h3">⚙️ Cài đặt tài khoản</h2>
+        </div>
+        <p>Cập nhật thông tin cá nhân và cài đặt tài khoản của bạn.</p>
+        <button class="btn btn-primary" style="margin-top: 20px;">Cài đặt</button>
+      </div>
+
+      <!-- Card 4: Thông báo -->
+      <div class="dashboard-card">
+        <div class="card-header">
+          <h2 class="h3">🔔 Thông báo</h2>
+        </div>
+        <p>Nhận thông báo về bài viết mới và cập nhật từ TVinhhh.</p>
+        <button class="btn btn-primary" style="margin-top: 20px;">Cấu hình</button>
+      </div>
+    </div>
+
+    <!-- PHẦN 1.5: Thống kê đọc + Chuỗi ngày đọc bài -->
+    <div class="dashboard-stats-row">
+      <!-- Thống kê nhanh -->
+      <div class="stats-box">
+        <h2 class="h3">📊 Thống kê đọc</h2>
+        <div class="stats-row">
+          <div class="stat-box">
+            <span class="stat-number">27</span>
+            <span class="stat-label">Bài đã đọc</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number">9</span>
+            <span class="stat-label">Bình luận</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number">14</span>
+            <span class="stat-label">Đã lưu</span>
+          </div>
+        </div>
+
+        <!-- Chủ đề yêu thích -->
+        <div class="topic-interest">
+          <h3 class="h4">🎯 Chủ đề bạn quan tâm nhất</h3>
+          <div class="interest-bar-item">
+            <span>Lập trình</span>
+            <div class="interest-bar-track"><div class="interest-bar-fill" style="width: 80%"></div></div>
+            <span>80%</span>
+          </div>
+          <div class="interest-bar-item">
+            <span>Công nghệ</span>
+            <div class="interest-bar-track"><div class="interest-bar-fill" style="width: 65%"></div></div>
+            <span>65%</span>
+          </div>
+          <div class="interest-bar-item">
+            <span>Thiết kế</span>
+            <div class="interest-bar-track"><div class="interest-bar-fill" style="width: 40%"></div></div>
+            <span>40%</span>
+          </div>
+          <div class="interest-bar-item">
+            <span>Cuộc sống</span>
+            <div class="interest-bar-track"><div class="interest-bar-fill" style="width: 25%"></div></div>
+            <span>25%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chuỗi ngày đọc bài (streak) -->
+      <div class="streak-box">
+        <h2 class="h3">🔥 Chuỗi ngày đọc bài</h2>
+        <p class="streak-number">5 <span>ngày liên tiếp</span></p>
+        <div class="streak-days">
+          <div class="streak-day done">T2</div>
+          <div class="streak-day done">T3</div>
+          <div class="streak-day done">T4</div>
+          <div class="streak-day done">T5</div>
+          <div class="streak-day done">T6</div>
+          <div class="streak-day">T7</div>
+          <div class="streak-day">CN</div>
+        </div>
+        <p class="streak-tip">Đọc thêm 1 bài hôm nay để giữ chuỗi streak nhé! 💪</p>
+      </div>
+    </div>
+
+    <!-- PHẦN 1.7: Huy hiệu thành tích -->
+    <div class="achievements-section">
+      <h2 class="h2">🏆 Huy hiệu thành tích</h2>
+      <div class="achievements-grid">
+        <div class="achievement-badge">
+          <div class="achievement-icon"><ion-icon name="rocket-outline"></ion-icon></div>
+          <p class="achievement-name">Người mới</p>
+          <p class="achievement-desc">Tham gia TVinhhh</p>
+        </div>
+        <div class="achievement-badge">
+          <div class="achievement-icon"><ion-icon name="flame-outline"></ion-icon></div>
+          <p class="achievement-name">Chuỗi 5 ngày</p>
+          <p class="achievement-desc">Đọc bài 5 ngày liên tiếp</p>
+        </div>
+        <div class="achievement-badge locked">
+          <div class="achievement-icon"><ion-icon name="chatbubbles-outline"></ion-icon></div>
+          <p class="achievement-name">Cây bút bình luận</p>
+          <p class="achievement-desc">Bình luận 20 bài viết</p>
+        </div>
+        <div class="achievement-badge locked">
+          <div class="achievement-icon"><ion-icon name="trophy-outline"></ion-icon></div>
+          <p class="achievement-name">Độc giả vàng</p>
+          <p class="achievement-desc">Đọc 100 bài viết</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHẦN 1.9: Gợi ý bài viết dành cho bạn -->
+    <div class="suggested-section">
+      <h2 class="h2">✨ Gợi ý cho bạn</h2>
+      <div class="posts-grid">
+        {{#each suggestedPosts}}
+        <a href="/blog/{{this.slug}}" class="post-card">
+          <img src="{{this.image}}" alt="{{this.title}}" loading="lazy">
+          <h3>{{this.title}}</h3>
+          <p>{{this.excerpt}}</p>
+        </a>
+        {{/each}}
+      </div>
+    </div>
+
+    <!-- PHẦN 1.95: Bài viết của bạn -->
+    <div class="my-posts-section">
+      <h2 class="h2">📝 Bài viết của bạn ({{myPosts.length}})</h2>
+      {{#if myPosts.length}}
+      <div class="posts-grid">
+        {{#each myPosts}}
+        <div class="my-post-card">
+          <a href="/blog/{{this.slug}}" class="my-post-card-link">
+            <img src="{{this.image}}" alt="{{this.title}}" loading="lazy">
+            <h3>{{this.title}}</h3>
+            <p>{{this.excerpt}}</p>
+          </a>
+          <form method="POST" action="/dashboard/delete-post/{{this.slug}}" class="delete-post-form" data-post-title="{{this.title}}">
+            <button type="submit" class="btn-delete-post">
+              <ion-icon name="trash-outline"></ion-icon> Xóa bài viết
+            </button>
+          </form>
+        </div>
+        {{/each}}
+      </div>
+      {{else}}
+      <p class="my-posts-empty">Bạn chưa đăng bài viết nào. Hãy dùng form "Đăng bài viết mới" ở trên nhé!</p>
+      {{/if}}
+    </div>
+
+    <!-- PHẦN 2: Hoạt động gần đây -->
+    <div class="activity-section">
+      <h2 class="h2">📋 Hoạt động gần đây</h2>
+      <!-- Danh sách hoạt động -->
+      <div class="activity-list">
+        <!-- Hoạt động 1: Lưu bài viết -->
+        <div class="activity-item">
+          <div class="activity-icon">
+            <ion-icon name="bookmark"></ion-icon>
+          </div>
+          <div class="activity-content">
+            <p class="activity-title">Bạn đã lưu bài viết</p>
+            <p class="activity-date">Hôm nay</p>
+          </div>
+        </div>
+
+        <!-- Hoạt động 2: Bình luận -->
+        <div class="activity-item">
+          <div class="activity-icon">
+            <ion-icon name="chatbubble"></ion-icon>
+          </div>
+          <div class="activity-content">
+            <p class="activity-title">Bạn đã bình luận</p>
+            <p class="activity-date">2 ngày trước</p>
+          </div>
+        </div>
+
+        <!-- Hoạt động 3: Cập nhật hồ sơ -->
+        <div class="activity-item">
+          <div class="activity-icon">
+            <ion-icon name="person"></ion-icon>
+          </div>
+          <div class="activity-content">
+            <p class="activity-title">Bạn đã cập nhật hồ sơ</p>
+            <p class="activity-date">1 tuần trước</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

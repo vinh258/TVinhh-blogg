@@ -1,0 +1,22 @@
+{
+  "name": "blog-project",
+  "version": "1.0.0",
+  "description": "TVinhhh - Trang web blog sắc màu với chế độ sáng/tối",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "watch:css": "sass --watch src/scss/app.scss public/css/app.css",
+    "build:css": "sass src/scss/app.scss public/css/app.css"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.1",
+    "mongoose": "^9.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "sass": "^1.83.0"
+  }
+}

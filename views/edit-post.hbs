@@ -1,0 +1,54 @@
+<!-- ============================================================
+     Trang Sửa bài viết (Buổi 12 - Update)
+     Chức năng: Hiển thị form điền sẵn dữ liệu cũ, cho phép
+     tác giả chỉnh sửa rồi lưu lại vào MongoDB.
+     ============================================================ -->
+
+<section class="dashboard-section">
+  <div class="container">
+    <div class="dashboard-header">
+      <div>
+        <h1 class="h1">✏️ Sửa bài viết</h1>
+        <p class="dashboard-subtitle">Chỉnh sửa nội dung bài viết của bạn</p>
+      </div>
+      <a href="/dashboard" class="btn btn-secondary">← Quay lại Dashboard</a>
+    </div>
+
+    <div class="new-post-box">
+      <form method="POST" action="/dashboard/edit-post/{{post.slug}}" class="new-post-form">
+        <div class="form-group">
+          <label for="postTitle">Tiêu đề bài viết *</label>
+          <input type="text" id="postTitle" name="title" value="{{post.title}}" placeholder="Nhập tiêu đề bài viết..." required>
+        </div>
+
+        <div class="new-post-form-row">
+          <div class="form-group">
+            <label for="postTopic">Chủ đề *</label>
+            <select id="postTopic" name="topicSlug" required>
+              {{#each topics}}
+              <option value="{{this.slug}}" {{#if (eq this.slug ../post.topicSlug)}}selected{{/if}}>{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="postImage">Ảnh bìa (URL, không bắt buộc)</label>
+            <input type="url" id="postImage" name="image" value="{{post.image}}" placeholder="https://...">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="postExcerpt">Mô tả ngắn *</label>
+          <textarea id="postExcerpt" name="excerpt" rows="2" placeholder="Tóm tắt ngắn gọn nội dung bài viết..." required>{{post.excerpt}}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="postContent">Nội dung bài viết</label>
+          <textarea id="postContent" name="content" rows="6" placeholder="Viết nội dung chi tiết của bài viết tại đây... (mỗi dòng sẽ là 1 đoạn văn)">{{post.content}}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large">💾 Lưu thay đổi</button>
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,68 @@
+<!-- ============================================================
+     Trang đăng nhập (Login Page)
+     Chức năng: Form đăng nhập, xác minh email/mật khẩu
+     ============================================================ -->
+
+<section class="auth-section">
+  <div class="container">
+    <!-- Card chính (form đăng nhập) -->
+    <div class="auth-card">
+      <!-- Phần header của card -->
+      <div class="auth-header">
+        <!-- Tiêu đề -->
+        <h1 class="h2">🔐 Đăng nhập</h1>
+        <!-- Mô tả -->
+        <p>Chào mừng quay trở lại với TVinhhh</p>
+      </div>
+
+      <!-- Thông báo thành công (hiển thị nếu đăng ký thành công) -->
+      {{#if success}}
+      <div class="alert alert-success">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <p>{{success}}</p>
+      </div>
+      {{/if}}
+
+      <!-- Thông báo lỗi (hiển thị nếu có lỗi) -->
+      {{#if error}}
+      <div class="alert alert-error">
+        <ion-icon name="close-circle"></ion-icon>
+        <p>{{error}}</p>
+      </div>
+      {{/if}}
+
+      <!-- Form đăng nhập -->
+      <form method="POST" class="auth-form">
+        <!-- Trường email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+        </div>
+
+        <!-- Trường mật khẩu -->
+        <div class="form-group">
+          <label for="password">Mật khẩu</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required>
+        </div>
+
+        <!-- Nút gửi form -->
+        <button type="submit" class="btn btn-primary btn-large">Đăng nhập</button>
+      </form>
+
+      <!-- Phần liên kết hữu ích ở cuối -->
+      <div class="auth-footer">
+        <!-- Link đến trang đăng ký -->
+        <p>Chưa có tài khoản? <a href="/register" class="link">Đăng ký tại đây</a></p>
+        <!-- Link quay lại trang chủ -->
+        <p><a href="/" class="link">← Quay lại trang chủ</a></p>
+      </div>
+
+      <!-- Ghi chú demo tài khoản cho testing -->
+      <div class="demo-note">
+        <p><strong>🧪 Demo tài khoản (để test):</strong></p>
+        <p>Email: user@example.com</p>
+        <p>Mật khẩu: 123456</p>
+      </div>
+    </div>
+  </div>
+</section>

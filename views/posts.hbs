@@ -1,0 +1,68 @@
+<!-- ============================================================
+     Trang danh sách bài viết (dùng chung cho /posts và /topic/:slug)
+     Chức năng: Hiển thị bài viết + tab phân loại theo chủ đề
+     ============================================================ -->
+
+<section class="posts-page">
+  <div class="container">
+    <!-- Tiêu đề trang -->
+    <div class="page-header">
+      <h1 class="h1">{{pageHeading}}</h1>
+      <p class="page-header-subtitle">{{pageSubtitle}}</p>
+    </div>
+
+    <!-- Tab phân loại theo chủ đề -->
+    <div class="topic-filter-tabs">
+      <a href="/posts" class="topic-tab {{#if showAllActive}}active{{/if}}">
+        Tất cả
+      </a>
+      {{#each topics}}
+      <a href="/topic/{{this.slug}}" class="topic-tab {{#if this.active}}active{{/if}}">
+        <ion-icon name="{{this.icon}}"></ion-icon>
+        {{this.name}} ({{this.count}})
+      </a>
+      {{/each}}
+    </div>
+
+    <!-- Danh sách bài viết -->
+    {{#if posts.length}}
+    <div class="blog-card-group posts-page-grid">
+      {{#each posts}}
+      <article class="blog-card" id="post-{{this.slug}}">
+        <div class="blog-card-banner">
+          <img src="{{this.image}}" alt="{{this.title}}" class="blog-banner-img" loading="lazy">
+        </div>
+
+        <div class="blog-content-wrapper">
+          <a href="/topic/{{this.topicSlug}}" class="blog-topic">{{this.topic}}</a>
+
+          <a href="/blog/{{this.slug}}"><h3 class="h3">{{this.title}}</h3></a>
+
+          <p class="blog-text">{{this.excerpt}}</p>
+
+          <div class="wrapper-flex">
+            <div class="profile-wrapper">
+              <img src="{{this.authorAvatar}}" alt="{{this.author}}" width="50" height="50">
+            </div>
+            <div>
+              <a href="#" class="h4">{{this.author}}</a>
+              <div class="text-sm">
+                <time datetime="{{this.date}}">{{this.dateFormatted}}</time>
+                <span class="separator"></span>
+                <span>{{this.readTime}} phút đọc</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+      {{/each}}
+    </div>
+    {{else}}
+    <!-- Trường hợp không có bài viết nào trong chủ đề này -->
+    <div class="empty-state">
+      <p>Chưa có bài viết nào trong chủ đề này.</p>
+      <a href="/posts" class="btn btn-primary">Xem tất cả bài viết</a>
+    </div>
+    {{/if}}
+  </div>
+</section>

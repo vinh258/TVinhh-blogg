@@ -1,0 +1,189 @@
+<!-- ============================================================
+     Trang chủ (Home Page)
+     Chức năng: Hero section, danh sách bài viết, sidebar (chủ đề, tags)
+     ============================================================ -->
+
+<!-- PHẦN 1: HERO SECTION (Phần giới thiệu đầu trang) -->
+<section class="hero">
+  <div class="container">
+    <!-- Cột trái: Tiêu đề + mô tả + nút CTA -->
+    <div class="left">
+      <!-- Tiêu đề chính với từ khóa "công nghệ" được in đậm -->
+      <h1 class="h1">
+        Khám phá thế giới <b>công nghệ</b> qua từng dòng chữ
+      </h1>
+      <!-- Mô tả blog -->
+      <p class="h3">
+        Blog hiện đại với thiết kế sắc màu, hình ảnh đẹp mắt — trải nghiệm đọc tuyệt vời trên mọi thiết bị.
+      </p>
+      <!-- Nhóm nút Call-To-Action (CTA) -->
+      <div class="btn-group">
+        <a href="#blog" class="btn btn-primary">Đọc bài viết</a>
+        <a href="/contact" class="btn btn-secondary">Liên hệ ngay</a>
+      </div>
+    </div>
+
+    <!-- Cột phải: Hình ảnh minh họa -->
+    <div class="right">
+      <!-- Các hình dạng trang trí (animation) -->
+      <div class="pattern-bg"></div>
+      <div class="img-box">
+        <img src="/images/avtt.png" alt="Minh họa blog công nghệ" class="avt-img" width="340" height="340">
+      </div>
+      <!-- Các hình tròn animation nổi -->
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PHẦN 2: MAIN SECTION (Danh sách bài viết + Sidebar) -->
+<section class="main" id="blog">
+  <div class="container">
+    <!-- Phần bài viết (chính) -->
+    <div class="blog">
+      <!-- Tiêu đề "Bài viết mới nhất" -->
+      <h2 class="h2">Bài viết mới nhất</h2>
+      <p class="section-subtitle">Xem trước {{posts.length}} / {{totalPosts}} bài viết — nhấn "Xem thêm" để xem toàn bộ.</p>
+
+      <!-- Danh sách các thẻ bài viết -->
+      <div class="blog-card-group">
+        {{#each posts}}
+        <!-- Mỗi bài viết là một card -->
+        <article class="blog-card" id="post-{{this.slug}}">
+          <!-- Ảnh thumbnail của bài viết -->
+          <div class="blog-card-banner">
+            <img src="{{this.image}}" alt="{{this.title}}" class="blog-banner-img" loading="lazy">
+          </div>
+
+          <!-- Nội dung bài viết -->
+          <div class="blog-content-wrapper">
+            <!-- Chủ đề (topic) - bấm vào sẽ PHÂN LOẠI, chỉ hiện bài viết cùng chủ đề -->
+            <a href="/topic/{{this.topicSlug}}" class="blog-topic">{{this.topic}}</a>
+
+            <!-- Tiêu đề bài viết -->
+            <a href="/blog/{{this.slug}}"><h3 class="h3">{{this.title}}</h3></a>
+
+            <!-- Mô tả ngắn (excerpt) -->
+            <p class="blog-text">{{this.excerpt}}</p>
+
+            <!-- Thông tin tác giả + ngày đăng + thời gian đọc -->
+            <div class="wrapper-flex">
+              <!-- Avatar tác giả -->
+              <div class="profile-wrapper">
+                <img src="{{this.authorAvatar}}" alt="{{this.author}}" width="50" height="50">
+              </div>
+              <!-- Tên tác giả + ngày + thời gian đọc -->
+              <div>
+                <a href="#" class="h4">{{this.author}}</a>
+                <div class="text-sm">
+                  <time datetime="{{this.date}}">{{this.dateFormatted}}</time>
+                  <span class="separator"></span>
+                  <span>{{this.readTime}} phút đọc</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        {{/each}}
+      </div>
+
+      <!-- Nút "Xem thêm bài viết" -->
+      <a href="/posts" class="btn load-more">Xem thêm bài viết</a>
+    </div>
+
+    <!-- PHẦN 3: SIDEBAR (Thanh bên phải) -->
+    <aside class="aside">
+      <!-- BOX 1: Danh sách chủ đề -->
+      <div class="topics" id="topics">
+        <h2 class="h2">Chủ đề</h2>
+        <div class="wrapper">
+          {{#each topics}}
+          <!-- Mỗi chủ đề là một link: bấm vào sẽ PHÂN LOẠI, chỉ hiện bài viết cùng chủ đề -->
+          <a href="/topic/{{this.slug}}" class="topic-btn">
+            <!-- Icon chủ đề -->
+            <div class="icon-box">
+              <ion-icon name="{{this.icon}}"></ion-icon>
+            </div>
+            <!-- Tên chủ đề + số lượng bài viết -->
+            <p>{{this.name}} ({{this.count}})</p>
+          </a>
+          {{/each}}
+        </div>
+      </div>
+
+      <!-- BOX 2: Bài viết nổi bật (thay cho "Thẻ phổ biến") -->
+      <div class="featured-post">
+        <h2 class="h2">🔥 Bài viết nổi bật</h2>
+        <a href="/blog/{{featuredPost.slug}}" class="featured-post-card">
+          <div class="featured-post-img">
+            <img src="{{featuredPost.image}}" alt="{{featuredPost.title}}" loading="lazy">
+            <span class="featured-post-badge">Nổi bật</span>
+          </div>
+          <div class="featured-post-body">
+            <a href="/topic/{{featuredPost.topicSlug}}" class="blog-topic">{{featuredPost.topic}}</a>
+            <h3 class="h4">{{featuredPost.title}}</h3>
+            <div class="featured-post-stats">
+              <span><ion-icon name="eye-outline"></ion-icon> {{featuredPost.views}} lượt xem</span>
+              <span><ion-icon name="time-outline"></ion-icon> {{featuredPost.readTime}} phút đọc</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- BOX 3: Kết nối - Mạng xã hội -->
+      <div class="contact" id="contact">
+        <h2 class="h2">Kết nối</h2>
+        <div class="wrapper">
+          <p>Theo dõi chúng tôi trên mạng xã hội để cập nhật bài viết mới nhất.</p>
+          <!-- Link Discord, Twitter, Facebook -->
+          <div class="social-link">
+            <a href="https://discord.com/" class="icon-box discord" aria-label="Discord">
+              <ion-icon name="logo-discord"></ion-icon>
+            </a>
+            <a href="https://x.com/" class="icon-box twitter" aria-label="Twitter">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+            <a href="https://www.facebook.com/" class="icon-box facebook" aria-label="Facebook">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOX 4: Form đăng ký nhận tin email -->
+      <div class="newsletter">
+        <h2 class="h2">Đăng ký nhận tin</h2>
+        <div class="wrapper">
+          <p>Nhận bài viết mới qua email mỗi tuần — hoàn toàn miễn phí.</p>
+
+          <!-- Thông báo đăng ký thành công -->
+          {{#if subscribed}}
+          <div class="alert alert-success">
+            <ion-icon name="checkmark-circle"></ion-icon>
+            <p>Đăng ký thành công! Cảm ơn bạn đã theo dõi.</p>
+          </div>
+          {{/if}}
+
+          <!-- Thông báo lỗi (thiếu email) -->
+          {{#if subscribeError}}
+          <div class="alert alert-error">
+            <ion-icon name="close-circle"></ion-icon>
+            <p>Vui lòng nhập email hợp lệ.</p>
+          </div>
+          {{/if}}
+
+          <!-- Form đăng ký: gửi thật lên server (POST /newsletter) -->
+          <form action="/newsletter" method="POST">
+            <!-- Trường email -->
+            <input type="email" name="email" placeholder="Email của bạn" required>
+            <!-- Trường message tuỳ chọn -->
+            <textarea name="message" placeholder="Lời nhắn (tuỳ chọn)" rows="3"></textarea>
+            <!-- Nút gửi -->
+            <button type="submit" class="btn btn-primary">Đăng ký</button>
+          </form>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

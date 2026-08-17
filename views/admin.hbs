@@ -1,0 +1,106 @@
+<!-- ============================================================
+     Trang Kiểm tra dữ liệu (Admin / Debug Page)
+     Chức năng: Xem nhanh mọi dữ liệu server đang lưu trong bộ nhớ
+     LƯU Ý: Trang này KHÔNG có xác thực — chỉ dùng để demo/phát triển,
+     không nên public khi triển khai lên môi trường thật.
+     ============================================================ -->
+
+<section class="admin-page">
+  <div class="container">
+    <div class="page-header">
+      <h1 class="h1">🛠️ Kiểm tra dữ liệu</h1>
+      <p class="page-header-subtitle">Xem nhanh dữ liệu server đang lưu trong bộ nhớ (RAM) — chỉ dùng để demo/kiểm tra, sẽ mất khi restart server.</p>
+    </div>
+
+    <div class="admin-warning">
+      <ion-icon name="warning-outline"></ion-icon>
+      <p>Trang này chưa có đăng nhập bảo vệ. Đừng đưa trang này lên internet công khai khi triển khai thật.</p>
+    </div>
+
+    <!-- Người dùng đã đăng ký -->
+    <div class="admin-box">
+      <h2 class="h3">👤 Người dùng đã đăng ký ({{users.length}})</h2>
+      {{#if users.length}}
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Tên đầy đủ</th><th>Email</th><th>Mật khẩu (đã che)</th></tr>
+          </thead>
+          <tbody>
+            {{#each users}}
+            <tr><td>{{this.fullName}}</td><td>{{this.email}}</td><td>{{this.password}}</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+      {{else}}
+      <p class="admin-empty">Chưa có ai đăng ký tài khoản.</p>
+      {{/if}}
+    </div>
+
+    <!-- Phiên đang đăng nhập -->
+    <div class="admin-box">
+      <h2 class="h3">🔓 Đang đăng nhập ({{sessions.length}})</h2>
+      {{#if sessions.length}}
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Tên đầy đủ</th><th>Email</th></tr>
+          </thead>
+          <tbody>
+            {{#each sessions}}
+            <tr><td>{{this.fullName}}</td><td>{{this.email}}</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+      {{else}}
+      <p class="admin-empty">Hiện không có ai đang đăng nhập.</p>
+      {{/if}}
+    </div>
+
+    <!-- Đăng ký nhận tin -->
+    <div class="admin-box">
+      <h2 class="h3">📧 Đăng ký nhận tin ({{newsletterSubscribers.length}})</h2>
+      {{#if newsletterSubscribers.length}}
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Email</th><th>Lời nhắn</th><th>Thời gian</th></tr>
+          </thead>
+          <tbody>
+            {{#each newsletterSubscribers}}
+            <tr><td>{{this.email}}</td><td>{{this.message}}</td><td>{{formatDate this.time}}</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+      {{else}}
+      <p class="admin-empty">Chưa có ai đăng ký nhận tin.</p>
+      {{/if}}
+    </div>
+
+    <!-- Tin nhắn liên hệ -->
+    <div class="admin-box">
+      <h2 class="h3">✉️ Tin nhắn liên hệ ({{contactMessages.length}})</h2>
+      {{#if contactMessages.length}}
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Tên</th><th>Email</th><th>Chủ đề</th><th>Nội dung</th><th>Thời gian</th></tr>
+          </thead>
+          <tbody>
+            {{#each contactMessages}}
+            <tr><td>{{this.name}}</td><td>{{this.email}}</td><td>{{this.subject}}</td><td>{{this.message}}</td><td>{{formatDate this.time}}</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+      {{else}}
+      <p class="admin-empty">Chưa có tin nhắn liên hệ nào.</p>
+      {{/if}}
+    </div>
+
+    <p class="admin-footnote">📦 Tổng số bài viết hiện có: {{totalPosts}}</p>
+  </div>
+</section>
