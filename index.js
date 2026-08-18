@@ -10,6 +10,10 @@
 // không chứa logic nghiệp vụ.
 // ============================================================
 
+// Nạp biến môi trường từ file .env — PHẢI đặt trên cùng, trước mọi require khác,
+// để các file phía dưới (như src/config/db.js) đọc được process.env.MONGODB_URI
+require('dotenv').config();
+
 const express = require('express');            // Framework web
 const path = require('path');                  // Xử lý đường dẫn file
 const { engine } = require('express-handlebars'); // Template engine
@@ -29,7 +33,7 @@ const webRoutes = require('./src/routes/webRoutes');
 // ========== CẤU HÌNH SERVER ==========
 
 const app = express();  // Tạo ứng dụng Express
-const port = process.env.PORT || 13000;  // Cổng server (localhost:10000)
+const port = process.env.PORT || 10000;  // Cổng server — hosting (Render...) tự cấp PORT, local mặc định dùng 3000
 
 const publicDir = path.join(__dirname, 'public');  // Thư mục public (CSS, JS, images)
 const viewsDir = path.join(__dirname, 'views');    // Thư mục views (HTML templates)
@@ -63,7 +67,9 @@ app.engine('hbs', engine({
     // Helper: so sánh 2 giá trị bằng nhau (dùng trong {{#if (eq a b)}})
     eq: (a, b) => a === b,
     // Helper: định dạng ngày giờ kiểu Việt Nam (dùng trong trang /admin)
-    formatDate: (d) => new Date(d).toLocaleString('vi-VN')
+    formatDate: (d) => new Date(d).toLocaleString('vi-VN'),
+    // Helper: cộng thêm 1 (dùng để đánh số STT 1,2,3... thay vì @index bắt đầu từ 0)
+    inc: (index) => index + 1
   }
 }));
 

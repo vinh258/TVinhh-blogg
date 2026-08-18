@@ -31,8 +31,11 @@ router.post('/login', authController.login);
 router.get('/dashboard', authController.showDashboard);
 router.get('/logout', authController.logout);
 
-// ---------- Đăng bài mới / Xóa bài (trong dashboard) ----------
+// ---------- Đăng bài mới / Sửa bài / Xóa bài (trong dashboard) ----------
 router.post('/dashboard/new-post', postController.createNewPost);
+router.get('/dashboard/my-blogs', postController.showMyBlogs);
+router.get('/dashboard/edit-post/:slug', postController.showEditForm);
+router.post('/dashboard/edit-post/:slug', postController.updatePostHandler);
 router.post('/dashboard/delete-post/:slug', postController.deletePost);
 
 // ---------- Liên hệ & Đăng ký nhận tin ----------

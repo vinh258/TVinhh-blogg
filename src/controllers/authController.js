@@ -79,28 +79,33 @@ function login(req, res) {
  * GET /dashboard
  * Hiển thị trang dashboard cá nhân (chỉ user đã đăng nhập)
  */
-async function showDashboard(req, res) {
+async function showDashboard(req, res, next) {
   // Kiểm tra: user đã đăng nhập chưa
   if (!req.user) {
     return res.redirect('/login');
   }
 
-  const [suggestedPosts, myPosts, topics] = await Promise.all([
-    postModel.getLatestPosts(3),          // Gợi ý 3 bài viết mới nhất
-    postModel.getPostsByAuthor(req.user.email), // Bài viết của chính user này
-    postModel.getAllTopics()              // Danh sách chủ đề để chọn khi đăng bài mới
-  ]);
+  try {
+    const [suggestedPosts, myPosts, topics] = await Promise.all([
+      postModel.getLatestPosts(3),          // Gợi ý 3 bài viết mới nhất
+      postModel.getPostsByAuthor(req.user.email), // Bài viết của chính user này
+      postModel.getAllTopics()              // Danh sách chủ đề để chọn khi đăng bài mới
+    ]);
 
-  res.render('dashboard', {
-    title: 'Dashboard cá nhân',
-    user: req.user,
-    suggestedPosts,
-    myPosts,
-    topics,
-    published: req.query.published,  // Tiêu đề bài viết vừa đăng thành công (nếu có)
-    deleted: req.query.deleted,  // Tên bài viết vừa xóa thành công (nếu có)
-    formError: req.query.error  // Thông báo lỗi khi đăng bài / xóa bài (nếu có)
-  });
+    res.render('dashboard', {
+      title: 'Dashboard cá nhân',
+      user: req.user,
+      suggestedPosts,
+      myPosts,
+      topics,
+      published: req.query.published,  // Tiêu đề bài viết vừa đăng thành công (nếu có)
+      updated: req.query.updated,  // Slug bài viết vừa sửa thành công (nếu có)
+      deleted: req.query.deleted,  // Tên bài viết vừa xóa thành công (nếu có)
+      formError: req.query.error  // Thông báo lỗi khi đăng bài / sửa bài / xóa bài (nếu có)
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 /**

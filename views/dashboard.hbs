@@ -26,6 +26,14 @@
     </div>
     {{/if}}
 
+    <!-- Thông báo sửa bài thành công -->
+    {{#if updated}}
+    <div class="alert alert-success">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <p>Cập nhật bài viết thành công! <a href="/blog/{{updated}}" class="link">Xem bài viết →</a></p>
+    </div>
+    {{/if}}
+
     <!-- Thông báo xóa bài thành công -->
     {{#if deleted}}
     <div class="alert alert-success">
@@ -238,11 +246,16 @@
             <h3>{{this.title}}</h3>
             <p>{{this.excerpt}}</p>
           </a>
-          <form method="POST" action="/dashboard/delete-post/{{this.slug}}" class="delete-post-form" data-post-title="{{this.title}}">
-            <button type="submit" class="btn-delete-post">
-              <ion-icon name="trash-outline"></ion-icon> Xóa bài viết
-            </button>
-          </form>
+          <div class="my-post-card-actions">
+            <a href="/dashboard/edit-post/{{this.slug}}" class="btn-edit-post">
+              <ion-icon name="create-outline"></ion-icon> Sửa bài viết
+            </a>
+            <form method="POST" action="/dashboard/delete-post/{{this.slug}}" class="delete-post-form" data-post-title="{{this.title}}">
+              <button type="submit" class="btn-delete-post">
+                <ion-icon name="trash-outline"></ion-icon> Xóa bài viết
+              </button>
+            </form>
+          </div>
         </div>
         {{/each}}
       </div>

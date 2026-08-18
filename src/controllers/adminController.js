@@ -14,18 +14,22 @@ const postModel = require('../models/postModel');
  * tin nhắn liên hệ). CHỈ DÙNG ĐỂ DEMO/PHÁT TRIỂN — trang này KHÔNG có
  * xác thực (auth), không nên public khi triển khai thật.
  */
-async function showAdminPage(req, res) {
-  const allPosts = await postModel.getAllPosts();
+async function showAdminPage(req, res, next) {
+  try {
+    const allPosts = await postModel.getAllPosts();
 
-  res.render('admin', {
-    title: 'Kiểm tra dữ liệu (Admin)',
-    users: userModel.getUsersMasked(),  // Danh sách user đã đăng ký (mật khẩu đã che)
-    sessions: userModel.getActiveSessions(),  // Danh sách phiên đang đăng nhập
-    newsletterSubscribers: userModel.getNewsletterSubscribers(),
-    contactMessages: userModel.getContactMessages(),
-    totalPosts: allPosts.length,
-    user: req.user
-  });
+    res.render('admin', {
+      title: 'Kiểm tra dữ liệu (Admin)',
+      users: userModel.getUsersMasked(),  // Danh sách user đã đăng ký (mật khẩu đã che)
+      sessions: userModel.getActiveSessions(),  // Danh sách phiên đang đăng nhập
+      newsletterSubscribers: userModel.getNewsletterSubscribers(),
+      contactMessages: userModel.getContactMessages(),
+      totalPosts: allPosts.length,
+      user: req.user
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 module.exports = { showAdminPage };

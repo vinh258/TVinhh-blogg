@@ -94,7 +94,7 @@ function formatDateVi(date) {
  * Tác dụng: Lấy toàn bộ danh sách bài viết từ MongoDB
  */
 async function getAllPosts() {
-  return Post.find().sort({ date: -1 }).lean();
+  return Post.find().sort({ date: -1, _id: -1 }).lean();
 }
 
 /**
@@ -102,7 +102,7 @@ async function getAllPosts() {
  * Tác dụng: Lấy n bài viết mới nhất (dùng cho trang chủ, gợi ý...)
  */
 async function getLatestPosts(limit) {
-  return Post.find().sort({ date: -1 }).limit(limit).lean();
+  return Post.find().sort({ date: -1, _id: -1 }).limit(limit).lean();
 }
 
 /**
@@ -112,7 +112,7 @@ async function getLatestPosts(limit) {
 async function getFeaturedPost() {
   const featured = await Post.findOne({ featured: true }).lean();
   if (featured) return featured;
-  return Post.findOne().sort({ date: -1 }).lean();
+  return Post.findOne().sort({ date: -1, _id: -1 }).lean();
 }
 
 /**
@@ -157,7 +157,7 @@ async function findTopicBySlug(slug) {
  * Tác dụng: PHÂN LOẠI bài viết — trả về các bài viết thuộc 1 chủ đề
  */
 async function getPostsByTopic(topicSlug) {
-  return Post.find({ topicSlug }).sort({ date: -1 }).lean();
+  return Post.find({ topicSlug }).sort({ date: -1, _id: -1 }).lean();
 }
 
 /**
@@ -240,6 +240,55 @@ async function createPost(data) {
 }
 
 /**
+ * Hàm: updatePost
+ * Tác dụng: Cập nhật (sửa) 1 bài viết đã có trong MongoDB
+ * — CHỈ khi authorEmail trùng khớp (đúng chủ sở hữu mới được sửa)
+ * Lưu ý: KHÔNG đổi slug khi sửa, để URL bài viết không bị thay đổi/hỏng link
+ * Param: slug - bài viết cần sửa, authorEmail - người đang thao tác, data - dữ liệu mới
+ * Trả về: { success, error, post }
+ */
+async function updatePost(slug, authorEmail, data) {
+  const post = await Post.findOne({ slug });
+
+  if (!post) {
+    return { success: false, error: 'Không tìm thấy bài viết cần sửa' };
+  }
+
+  if (post.authorEmail !== authorEmail) {
+    return { success: false, error: 'Bạn không có quyền sửa bài viết này' };
+  }
+
+  const { title, topicSlug, image, excerpt, content } = data;
+
+  // Kiểm tra: các trường bắt buộc phải được điền
+  if (!title || !title.trim() || !topicSlug || !excerpt || !excerpt.trim()) {
+    return { success: false, error: 'Vui lòng điền đầy đủ Tiêu đề, Chủ đề và Mô tả ngắn' };
+  }
+
+  // Tìm chủ đề tương ứng (nếu không hợp lệ → giữ nguyên chủ đề cũ)
+  const topic = await findTopicBySlug(topicSlug);
+
+  post.title = title.trim();
+  if (topic) {
+    post.topic = topic.name;
+    post.topicSlug = topic.slug;
+  }
+  post.excerpt = excerpt.trim();
+  post.content = content ? content.trim() : '';
+  if (image && image.trim()) {
+    post.image = image.trim();
+  }
+
+  // Tính lại thời gian đọc ước tính dựa trên nội dung mới
+  const wordCount = (post.content || post.excerpt).trim().split(/\s+/).length;
+  post.readTime = Math.max(1, Math.ceil(wordCount / 200));
+
+  await post.save();
+
+  return { success: true, post: post.toObject() };
+}
+
+/**
  * Hàm: deletePost
  * Tác dụng: Xóa 1 bài viết trong MongoDB — CHỈ khi authorEmail trùng khớp (đúng chủ sở hữu)
  * Trả về: { success, error, post }
@@ -264,7 +313,7 @@ async function deletePost(slug, authorEmail) {
  * Tác dụng: Lấy các bài viết do 1 user cụ thể đăng (dùng cho dashboard)
  */
 async function getPostsByAuthor(authorEmail) {
-  return Post.find({ authorEmail }).sort({ date: -1 }).lean();
+  return Post.find({ authorEmail }).sort({ date: -1, _id: -1 }).lean();
 }
 
 module.exports = {
@@ -281,6 +330,7 @@ module.exports = {
   getPostBySlug,
   getRelatedPosts,
   createPost,
+  updatePost,
   deletePost,
   getPostsByAuthor
 };

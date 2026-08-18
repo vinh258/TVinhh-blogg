@@ -43,6 +43,7 @@
         <div class="auth-btns">
           {{#if user}}
             <span class="user-greeting">👋 {{user.fullName}}</span>
+            <a href="/dashboard/my-blogs" class="btn btn-secondary">My blogs</a>
             <a href="/dashboard" class="btn btn-primary">Dashboard</a>
             <a href="/logout" class="btn btn-secondary">Đăng xuất</a>
           {{else}}
@@ -89,6 +90,7 @@
     <div class="mobile-nav-auth">
       {{#if user}}
         <span class="user-greeting">👋 {{user.fullName}}</span>
+        <a href="/dashboard/my-blogs" class="btn btn-secondary">My blogs</a>
         <a href="/dashboard" class="btn btn-primary">Dashboard</a>
         <a href="/logout" class="btn btn-secondary">Đăng xuất</a>
       {{else}}

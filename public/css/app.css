@@ -2397,6 +2397,38 @@ html.dark-theme .theme-btn .moon {
   border-top: 1px solid var(--border-color);
 }
 
+.my-post-card-actions {
+  display: flex;
+  border-top: 1px solid var(--border-color);
+}
+
+.btn-edit-post {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-edit-post:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color, #6366f1);
+}
+
+.delete-post-form {
+  flex: 1;
+}
+
 .btn-delete-post {
   width: 100%;
   display: flex;
@@ -2414,5 +2446,84 @@ html.dark-theme .theme-btn .moon {
 }
 
 .btn-delete-post:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ===== Trang Quản lý bài viết (my-blogs.hbs) ===== */
+.my-blogs-table-wrapper {
+  overflow-x: auto;
+  background: var(--card-bg, #fff);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.my-blogs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.my-blogs-table th,
+.my-blogs-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.my-blogs-table th {
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: var(--bg-secondary, rgba(0, 0, 0, 0.02));
+}
+
+.my-blogs-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.my-blogs-title-link {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.my-blogs-title-link:hover {
+  color: var(--primary-color, #6366f1);
+}
+
+.my-blogs-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-table-edit,
+.btn-table-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  text-decoration: none;
+}
+
+.btn-table-edit {
+  color: var(--primary-color, #6366f1);
+}
+
+.btn-table-edit:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.btn-table-delete {
+  color: #ef4444;
+}
+
+.btn-table-delete:hover {
   background: rgba(239, 68, 68, 0.1);
 }
